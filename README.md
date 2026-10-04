@@ -1,12 +1,22 @@
 # Coconut Harvest Robot
 
-A PyTorch-based robotic agriculture project for coconut harvesting in high trees. The system combines:
+A PyTorch-based robotic agriculture project for coconut harvesting in high trees.
+
+![Coconut harvest robot concept](docs/images/coconut_harvest_robot_photo.svg)
+
+## Overview
+
+This project combines:
 
 - vision-based coconut and tree detection
-- depth or height estimation
-- spatial feature extraction for canopy understanding
-- action planning for robot arm or harvesting mechanism
-- clean object-oriented code for agriculture robotics research and prototyping
+- depth or height estimation for high-canopy analysis
+- spatial feature extraction for orchard scene understanding
+- action planning for robot movement and harvesting
+- clean object-oriented code for agricultural robotics research and prototyping
+
+## Pipeline overview
+
+![Harvest pipeline](docs/images/harvest_pipeline.svg)
 
 ## Project goals
 
@@ -26,6 +36,10 @@ This project is designed to support a robotic system that can:
 ├── requirements.txt
 ├── pyproject.toml
 ├── demo.py
+├── docs
+│   └── images
+│       ├── coconut_harvest_robot_photo.svg
+│       └── harvest_pipeline.svg
 ├── src
 │   └── coconut_harvest_robot
 │       ├── __init__.py

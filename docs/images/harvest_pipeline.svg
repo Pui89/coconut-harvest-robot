@@ -1,0 +1,71 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0" x2="1">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#d1fae5"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="0" x2="1">
+      <stop offset="0%" stop-color="#dcfce7"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" fill="#f8fafc"/>
+
+  <!-- Stage 1: Input -->
+  <rect x="60" y="80" width="200" height="100" rx="14" fill="url(#grad1)" stroke="#1f2937" stroke-width="2"/>
+  <text x="160" y="120" text-anchor="middle" font-size="20" fill="#111827" font-family="Arial">Camera / Drone</text>
+  <text x="160" y="150" text-anchor="middle" font-size="18" fill="#111827" font-family="Arial">RGB + Depth</text>
+
+  <!-- Stage 2: Detection -->
+  <rect x="340" y="80" width="220" height="100" rx="14" fill="url(#grad2)" stroke="#1f2937" stroke-width="2"/>
+  <text x="450" y="120" text-anchor="middle" font-size="20" fill="#111827" font-family="Arial">Coconut detector</text>
+  <text x="450" y="150" text-anchor="middle" font-size="18" fill="#111827" font-family="Arial">Tree segmentation</text>
+
+  <!-- Stage 3: Spatial -->
+  <rect x="660" y="80" width="220" height="100" rx="14" fill="#dbeafe" stroke="#1f2937" stroke-width="2"/>
+  <text x="770" y="120" text-anchor="middle" font-size="20" fill="#111827" font-family="Arial">Spatial features</text>
+  <text x="770" y="150" text-anchor="middle" font-size="18" fill="#111827" font-family="Arial">Height + geometry</text>
+
+  <!-- Stage 4: Planning -->
+  <rect x="900" y="80" width="220" height="100" rx="14" fill="#dcfce7" stroke="#1f2937" stroke-width="2"/>
+  <text x="1010" y="120" text-anchor="middle" font-size="20" fill="#111827" font-family="Arial">Harvest planner</text>
+  <text x="1010" y="150" text-anchor="middle" font-size="18" fill="#111827" font-family="Arial">Action model</text>
+
+  <!-- Arrows between stages -->
+  <line x1="260" y1="130" x2="340" y2="130" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="560" y1="130" x2="660" y2="130" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="880" y1="130" x2="900" y2="130" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: Robot execution -->
+  <rect x="420" y="280" width="360" height="120" rx="14" fill="#fef3c7" stroke="#1f2937" stroke-width="2"/>
+  <text x="600" y="320" text-anchor="middle" font-size="22" fill="#111827" font-family="Arial">Robot execution</text>
+  <text x="600" y="355" text-anchor="middle" font-size="18" fill="#111827" font-family="Arial">move → grip/cut → drop</text>
+
+  <!-- Arrow from planner to execution -->
+  <path d="M 1010 180 L 1010 230 L 600 230 L 600 280" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Output -->
+  <rect x="400" y="480" width="400" height="120" rx="14" fill="#e0f2fe" stroke="#1f2937" stroke-width="2"/>
+  <text x="600" y="520" text-anchor="middle" font-size="22" fill="#111827" font-family="Arial">Harvest result</text>
+  <text x="600" y="555" text-anchor="middle" font-size="18" fill="#111827" font-family="Arial">position, action, status</text>
+
+  <!-- Arrow from execution to output -->
+  <line x1="600" y1="400" x2="600" y2="480" stroke="#333" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Key features -->
+  <rect x="60" y="680" width="330" height="100" rx="12" fill="#ffffff" opacity="0.9"/>
+  <text x="80" y="715" font-size="18" fill="#111827" font-family="Arial">✓ Vision-based detection</text>
+  <text x="80" y="745" font-size="18" fill="#111827" font-family="Arial">✓ 3D spatial reasoning</text>
+
+  <rect x="435" y="680" width="330" height="100" rx="12" fill="#ffffff" opacity="0.9"/>
+  <text x="455" y="715" font-size="18" fill="#111827" font-family="Arial">✓ Action planning</text>
+  <text x="455" y="745" font-size="18" fill="#111827" font-family="Arial">✓ High-canopy harvesting</text>
+
+  <rect x="810" y="680" width="330" height="100" rx="12" fill="#ffffff" opacity="0.9"/>
+  <text x="830" y="715" font-size="18" fill="#111827" font-family="Arial">✓ Object-oriented design</text>
+  <text x="830" y="745" font-size="18" fill="#111827" font-family="Arial">✓ Clean PyTorch code</text>
+</svg>
