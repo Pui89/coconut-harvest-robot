@@ -1,0 +1,13 @@
+# Conservative safety gates. Tune only after hardware validation.
+
+safety:
+  min_detection_confidence: 0.50
+  min_action_confidence: 0.70
+  max_linear_velocity_mps: 0.50
+  max_angular_velocity_radps: 0.80
+  human_exclusion_radius_m: 2.0
+  animal_exclusion_radius_m: 1.5
+  emergency_stop_on_unknown_object: true
+  emergency_stop_on_collision: true
+  emergency_stop_on_depth_failure: true
+  require_post_action_verification: true
