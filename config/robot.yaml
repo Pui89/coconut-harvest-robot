@@ -1,0 +1,49 @@
+robot:
+  name: coconut_harvester
+  platform: mobile_wheeled_base
+  mast:
+    lift_range_m: [0.0, 8.0]
+  arm:
+    dof: 6
+    reach_m: 2.8
+    payload_kg: 25
+  end_effector:
+    adaptive_gripper: true
+    cutter: servo_shear
+    max_gripper_force_n: 150
+    max_cutting_force_n: 500
+
+sensors:
+  rgbd: true
+  thermal: true
+  nir: true
+  lidar: true
+  imu: true
+  wrist_force_torque: true
+  tool_current: true
+
+compute:
+  edge_gpu: true
+  perception: [yolo, sam3]
+  reasoning: [qwen3-vl]
+  action_candidates: [groot, flux-3-action-base, smolvla]
+  future_prediction: [v-jepa2]
+
+control:
+  ros2: true
+  navigation: nav2
+  manipulation: moveit2
+  trajectory_planner: rrt_star
+  direct_foundation_model_motor_control: false
+
+safety:
+  deterministic_gate: true
+  human_exclusion: true
+  collision_check: true
+  workspace_check: true
+  joint_limits: true
+  velocity_limits: true
+  force_torque_limits: true
+  tool_jam_detection: true
+  emergency_stop: true
+  high_consequence_human_override: true
