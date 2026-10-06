@@ -1,0 +1,103 @@
+# Advanced Generative Simulation and Embodied Action Models
+
+This layer adds four external Hugging Face models to the coconut-harvest embodied-AI stack without bundling their weights.
+
+## 1. LTX-2.5-Diffusers
+
+**Source:** Lightricks/LTX-2.5-Diffusers
+
+Use LTX-2.5 as an offline video/audio world-simulation and dataset-augmentation component. Generate orchard scenes with wind, leaf motion, rain, fog, low light, occlusion, camera obstruction, tool-contact events and recovery scenarios.
+
+It is **not** a runtime robot controller.
+
+## 2. MiniMax H3 Turbo LoRA
+
+**Source:** Pepe104/MiniMax-H3-Turbo-LoRa-UNCENSORED
+
+Use the Space as an offline audio-visual scenario generator for rare orchard events, difficult visibility conditions and recovery/failure datasets. Any production use must pass license, provenance, content and safety review.
+
+It is **not** a runtime robot controller.
+
+## 3. NVIDIA GR00T N1.7 3B
+
+**Source:** nvidia/GR00T-N1.7-3B
+
+Use GR00T as an embodied-action policy candidate for imitation learning, skill transfer and simulation-to-real experiments. Candidate skills include approach, grasp, cut, retract and verify.
+
+GR00T outputs proposals that must pass the deterministic planner and safety gate before execution.
+
+## 4. FLUX 3 Action Base
+
+**Source:** black-forest-labs/flux-3-action-base
+
+FLUX 3 Action Base is treated as an adaptation component for world/action prediction. It can condition on camera frames, robot state and language and produce candidate action chunks together with future video.
+
+Important: this repository is an **action base, not a complete coconut-harvesting policy**. A new embodiment needs its own action head and validation.
+
+## Combined architecture
+
+```
+RGB / RGB-D / LiDAR / IMU
+        |
+        v
+YOLO + SAM3 + tracking
+        |
+        v
+3D tree / branch / fruit world model
+        |
+        +--> Qwen3-VL reasoning
+        |        |
+        |        +--> active perception
+        |        +--> uncertainty / target verification
+        |
+        +--> future prediction
+        |
+        v
+GR00T N1.7 / FLUX 3 Action
+(candidate actions only)
+        |
+        v
+Deterministic safety gate
+        |
+        +--> workspace / collision
+        +--> human exclusion
+        +--> joint limits
+        +--> velocity / force / torque
+        +--> confidence / uncertainty
+        +--> emergency stop
+        |
+        v
+ROS2 / MoveIt2 / RRT*
+        |
+        v
+Arm + gripper + cutting tool
+        |
+        v
+Action verification -> memory update
+```
+
+## Synthetic-data loop
+
+```
+Isaac Sim / Isaac Lab
+       +
+LTX-2.5 / MiniMax H3
+       |
+       v
+Rare-event orchard video/audio
+       |
+       v
+Perception + reasoning + action datasets
+       |
+       v
+LeRobot training/evaluation
+       |
+       v
+Simulation validation -> controlled real-robot validation
+```
+
+## Safety invariant
+
+Reasoning decides **what should happen**. The planner decides **how to execute it**. The deterministic safety controller decides **whether execution is allowed**.
+
+No generative, VLM or action foundation model may bypass collision checking, workspace limits, human exclusion, force/torque limits or the physical emergency stop.
