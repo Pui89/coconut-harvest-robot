@@ -315,3 +315,15 @@ The repository now includes a reproducible 3D demonstration pipeline for the con
 - GitHub Actions workflow Build 3D Coconut Robot Demo renders the GLB and MP4 as downloadable workflow artifacts.
 
 The animation demonstrates **drive → scan → approach → cut → verify → retract** in a 3D orchard scene. For physics-backed movement, the same robot is represented by robots/coconut_harvester.urdf for Isaac Sim/Gazebo/ROS 2 integration.
+
+
+## Defensive AI Narcotics Screening
+
+This repository now includes a separate defensive perception module for screening images/video for **suspected** amphetamine, heroin, crystal methamphetamine, narcotic-unknown, and unknown-substance candidates. It reuses the existing YOLO + SAM3 + tracking + RGB-D/LiDAR + Qwen3-VL/Gemma reasoning stack, with V-JEPA2 for scene-change prediction and the existing Isaac Sim/Isaac Lab + LeRobot pipeline for controlled evaluation.
+
+- Configuration: `config/narcotics_detection.yaml`
+- Screening adapter: `src/coconut_harvest_robot/narcotics_detection.py`
+- Documentation: `docs/NARCOTICS_AI_DETECTION.md`
+- Tests: `tests/test_narcotics_detection.py`
+
+This is **not forensic identification**. Visual candidates always require human review; unknown objects remain unknown, and the robot has no autonomous seizure, enforcement, or substance-handling capability.
