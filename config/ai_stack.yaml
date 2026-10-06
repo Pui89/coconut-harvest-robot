@@ -1,0 +1,52 @@
+# Reference configuration for the embodied-AI pipeline.
+# Model weights are intentionally not bundled in this repository.
+
+perception:
+  detector:
+    framework: yolo
+    task: detection
+    confidence_threshold: 0.50
+  segmentation:
+    framework: sam3
+    mode: image_and_video
+  tracking:
+    enabled: true
+
+vision_language:
+  model_family: qwen3-vl
+  enabled: true
+  role: scene_reasoning_and_task_interpretation
+
+world_model:
+  rgbd: true
+  lidar: optional
+  pointcloud: open3d
+  semantic_map: true
+
+action:
+  candidates:
+    - groot
+    - smolvla
+    - openvla
+    - pi0
+  selected: smolvla
+  direct_motor_control: false
+
+planning:
+  ros2: true
+  moveit2: true
+  collision_check: true
+  planner: rrt_star
+
+safety:
+  require_human_exclusion_check: true
+  require_collision_check: true
+  require_joint_limits: true
+  require_confidence_gate: true
+  emergency_stop: true
+
+simulation:
+  primary: isaac_sim
+  learning: isaac_lab
+  domain_randomization: true
+  sim_to_real: true
