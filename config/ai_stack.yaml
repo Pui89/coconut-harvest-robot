@@ -61,3 +61,10 @@ advanced_models:
     - FLUX-3-Action-Base
   direct_motor_control: false
   deterministic_safety_gate: required
+
+
+narcotics_screening:
+  enabled: true
+  config: config/narcotics_detection.yaml
+  purpose: defensive_screening_and_human_review
+  direct_motor_control: false

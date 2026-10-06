@@ -1,0 +1,84 @@
+# Reference configuration for a defensive narcotics-screening perception pipeline.
+# Model weights and datasets are not bundled.
+version: 1
+mission:
+  name: multimodal_narcotics_screening
+  purpose: detect_and_flag_suspected_controlled_substances_for_human_review
+  autonomous_intervention: false
+classes:
+  - amphetamine
+  - heroin
+  - methamphetamine_crystal
+  - narcotic_unknown
+  - unknown_substance
+sensors:
+  rgb: true
+  rgbd: true
+  thermal: optional
+  nir: optional
+  lidar: optional
+  multispectral: optional
+perception:
+  detector:
+    framework: yolo
+    task: detection
+    confidence_threshold: 0.60
+  segmentation:
+    framework: sam3
+    enabled: true
+  tracking:
+    enabled: true
+  anomaly_detection:
+    enabled: true
+    unknown_class_required: true
+reasoning:
+  primary: Qwen3-VL
+  secondary: Gemma4-E4B-it
+  tasks:
+    - multimodal_scene_interpretation
+    - evidence_consistency_check
+    - occlusion_analysis
+    - unknown_object_analysis
+    - uncertainty_estimation
+  direct_motor_control: false
+future_prediction:
+  model_family: V-JEPA2
+  role: scene_change_and_visibility_prediction
+  direct_control: false
+action_candidates:
+  models:
+    - NVIDIA-GR00T-N1.7-3B
+    - FLUX-3-Action-Base
+    - SmolVLA
+    - OpenVLA
+    - pi0
+  role: observation_or_camera_reposition_candidates
+  direct_motor_control: false
+simulation_and_data:
+  simulator:
+    - Isaac Sim
+    - Isaac Lab
+  generative_data:
+    - LTX-2.5-Diffusers
+    - MiniMax-H3-Turbo-LoRA
+  dataset_framework: LeRobot
+workflow:
+  pipeline: RGB/RGB-D/thermal/NIR/LiDAR -> YOLO + SAM3 + tracking -> anomaly/unknown screening -> 3D evidence fusion -> Qwen3-VL/Gemma4 reasoning -> uncertainty calibration -> human review -> optional safe observation action
+  states:
+    - SEARCHING
+    - CANDIDATE
+    - OCCLUDED
+    - UNKNOWN
+    - SUSPECTED_SUBSTANCE
+    - HUMAN_REVIEW
+    - CLEARED
+    - ESCALATE
+safety:
+  no_autonomous_seizure: true
+  no_autonomous_intervention: true
+  human_confirmation_required: true
+  preserve_scene_evidence: true
+  confidence_gate_required: true
+  unknown_must_not_be_classified_as_drug: true
+  emergency_stop: true
+  audit_logging: true
