@@ -50,3 +50,14 @@ simulation:
   learning: isaac_lab
   domain_randomization: true
   sim_to_real: true
+
+
+advanced_models:
+  generative_simulation:
+    - LTX-2.5-Diffusers
+    - MiniMax-H3-Turbo-LoRA
+  action_candidates:
+    - NVIDIA-GR00T-N1.7-3B
+    - FLUX-3-Action-Base
+  direct_motor_control: false
+  deterministic_safety_gate: required
