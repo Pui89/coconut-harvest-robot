@@ -1,0 +1,39 @@
+reasoning:
+  model: Qwen3-VL
+  role: high_level_task_reasoning
+  tasks:
+    - target_selection
+    - ripeness_and_quality_reasoning
+    - occlusion_analysis
+    - approach_angle_selection
+    - branch_and_workspace_risk
+    - multi_step_harvest_planning
+    - active_perception
+    - uncertainty_estimation
+  output: structured_decision
+  direct_motor_control: false
+  require_target_verification: true
+  require_safety_gate: true
+  confidence_threshold: 0.70
+
+active_perception:
+  enabled: true
+  actions:
+    - move_camera
+    - change_viewpoint
+    - request_depth_scan
+    - reobserve_target
+
+memory:
+  enabled: true
+  store:
+    - target_history
+    - successful_harvests
+    - failed_attempts
+    - scene_changes
+
+safety:
+  unknown_target_action: inspect
+  occluded_target_action: reobserve
+  low_confidence_action: stop_and_review
+  collision_check_required: true
