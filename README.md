@@ -305,3 +305,13 @@ A concrete simulation robot model is included in `robots/coconut_harvester.urdf`
 - Design and simulation notes: `docs/ROBOT_DESIGN.md`
 
 The model is intended for Isaac Sim, Gazebo/ROS 2 and kinematic prototyping. It is a reference simulation asset, not a certified mechanical design. Foundation models remain advisory and candidate actions must pass the deterministic safety gate before execution.
+
+
+## 3D Robot + Working Video Demo
+
+The repository now includes a reproducible 3D demonstration pipeline for the concrete coconut harvester:
+- sim/coconut_harvester_demo.py generates the 3D scene and animated MP4.
+- docs/VIDEO_3D_DEMO.md documents the demo.
+- GitHub Actions workflow Build 3D Coconut Robot Demo renders the GLB and MP4 as downloadable workflow artifacts.
+
+The animation demonstrates **drive → scan → approach → cut → verify → retract** in a 3D orchard scene. For physics-backed movement, the same robot is represented by robots/coconut_harvester.urdf for Isaac Sim/Gazebo/ROS 2 integration.
