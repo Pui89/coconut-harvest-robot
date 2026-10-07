@@ -255,6 +255,264 @@ See `docs/ORCHARD_DATA.md` for data format specification.
 - Reinforcement learning for adaptive strategies
 - Integration with ROS for industrial robot control
 
+## News
+
+Project updates, architecture changes, new model integrations, simulation assets, evaluation milestones, and safety-related changes are recorded in Git history and repository documentation. New capabilities are labeled according to implementation status rather than presented as validated results.
+
+## Online API
+
+**Status: Prototype / planned interface**
+
+A future HTTP API can expose perception, 3D localization, harvest planning, and safety-gated decision services.
+
+Example request:
+
+    {
+      "request_id": "example-001",
+      "modalities": ["rgb", "depth", "lidar"],
+      "mode": "harvest_planning",
+      "target_id": "coconut-01"
+    }
+
+Example response:
+
+    {
+      "request_id": "example-001",
+      "decision": "HUMAN_REVIEW",
+      "target_id": "coconut-01",
+      "confidence": 0.0,
+      "uncertainty": 0.0,
+      "safety_gate": "NOT_EXECUTED",
+      "evidence_provenance": {}
+    }
+
+These values are interface examples only, not measured performance. Any future API must keep model reasoning separate from actuator control and enforce deterministic safety validation.
+
+## Online App
+
+**Status: Prototype / planned**
+
+The planned web application can provide:
+
+- live RGB/RGB-D/LiDAR sensor status
+- synchronized orchard and robot views
+- 3D target localization
+- 4D target trajectory visualization
+- harvest-plan inspection
+- uncertainty and sensor-health indicators
+- robot telemetry
+- safety-gate state and emergency-stop status
+- human approval/review workflow
+- audit history and evidence provenance
+
+The online interface is intended for monitoring and authorized human oversight. It must not provide unrestricted AI-to-motor control.
+
+## System Overview
+
+    RGB / RGB-D / LiDAR / Multispectral
+                    |
+                    v
+          Sensor Synchronization
+                    |
+                    v
+            Quality / Health Gate
+                    |
+                    v
+     Detection + Segmentation + Tracking
+                    |
+                    v
+           3D Spatial World Model
+                    |
+                    v
+          Target / Ripeness Screening
+                    |
+                    v
+           Multimodal Reasoning
+                    |
+                    v
+          Uncertainty / OOD Checks
+                    |
+                    v
+           Harvest Plan Proposal
+                    |
+                    v
+            HUMAN REVIEW / POLICY
+                    |
+                    v
+           Deterministic Safety Gate
+                    |
+                    v
+           ROS 2 / MoveIt 2 Control
+                    |
+                    v
+           Robot + End Effector
+
+The architecture separates perception and multimodal reasoning from deterministic robot control. Foundation models may propose high-level actions, but they do not bypass collision, workspace, joint-limit, force/torque, exclusion-zone, velocity, or emergency-stop constraints.
+
+## Model Variants and Input Specifications
+
+| Variant | Inputs | Primary role | Status |
+|---|---|---|---|
+| RGB | RGB image | Coconut/tree perception | Prototype |
+| RGB-D | RGB + depth | 3D localization and geometry | Prototype |
+| LiDAR | Point cloud | Mapping and obstacle geometry | Prototype |
+| Multispectral | Multispectral image | Complementary crop/ripeness evidence | Planned |
+| Multimodal | RGB-D + LiDAR + optional multispectral | Evidence fusion | Prototype |
+| Temporal / 4D | Sequential multimodal observations | Target tracking and motion state | Prototype |
+| Open-set / anomaly | Multimodal features | Unknown or degraded-scene handling | Planned |
+| Gemma 4 31B IT | Image + text/evidence metadata | High-level multimodal reasoning | Prototype |
+| VLA candidates | Vision/state/action context | Future embodied-action research | Planned |
+
+Actual camera resolution, depth range, LiDAR density, field of view, frame rate, calibration, synchronization, and preprocessing depend on deployed hardware. Configuration and sensor provenance should be recorded with every evaluation.
+
+## Model Architecture
+
+The model stack is organized into six layers:
+
+1. **Perception** — detection, segmentation, tracking, and sensor quality checks.
+2. **Spatial intelligence** — depth-to-3D projection, point-cloud processing, canopy geometry, and world-frame localization.
+3. **Temporal intelligence** — target-state estimation and 4D trajectory representation.
+4. **Multimodal reasoning** — Gemma 4 31B IT and other approved models summarize evidence and propose high-level plans.
+5. **Planning** — reachability, inverse kinematics, collision-aware trajectory generation, and task sequencing.
+6. **Safety/control** — deterministic validation followed by ROS 2 / MoveIt 2 execution.
+
+    Sensors
+      -> Perception
+      -> 3D/4D World Model
+      -> Multimodal Reasoning
+      -> Plan Proposal
+      -> Deterministic Safety Gate
+      -> Robot Control
+
+No foundation model is trusted as the final authority for physical actuation.
+
+## Recommended Workflow
+
+1. Calibrate RGB, depth, LiDAR, and optional multispectral sensors.
+2. Verify timestamp synchronization and sensor health.
+3. Acquire orchard observations and validate data quality.
+4. Detect and track candidate coconuts and relevant tree geometry.
+5. Fuse depth/LiDAR evidence into a 3D world representation.
+6. Track target state over time for the 4D layer.
+7. Generate a harvest-plan proposal using deterministic planners and approved AI reasoning.
+8. Check uncertainty, missing modalities, reachability, collision risk, and safety constraints.
+9. Require human review where the deployment policy requires approval.
+10. Pass the approved candidate action through the deterministic safety gate.
+11. Execute through ROS 2 / MoveIt 2 or the validated robot interface.
+12. Verify the outcome and record provenance, telemetry, failures, and recovery actions.
+
+## Local Deployment
+
+### Requirements
+
+- Python 3.x
+- PyTorch and project dependencies
+- ROS 2 / MoveIt 2 for robot integration
+- Compatible RGB/RGB-D/LiDAR hardware for physical deployment
+- Optional GPU for accelerated inference
+- Isaac Sim/Gazebo for simulation workflows
+
+### Install
+
+    git clone https://github.com/Pui89/coconut-harvest-robot.git
+    cd coconut-harvest-robot
+    python -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+    python demo.py
+
+For Windows, activate the virtual environment with the platform-appropriate command. Start with simulation or recorded data before connecting physical actuators. Validate all safety gates before real-world execution.
+
+## Full 2K-Workflow
+
+**2K** refers to a target high-resolution visual workflow; it does not guarantee that every deployment uses a 2K camera.
+
+    2K RGB Acquisition
+            |
+            v
+    Quality Check + Synchronization
+            |
+            v
+    Resize / Crop / Preprocessing
+            |
+            v
+    Coconut + Tree Detection
+            |
+            v
+    Segmentation + Tracking
+            |
+            v
+    Depth / LiDAR Alignment
+            |
+            v
+    3D Spatial Fusion
+            |
+            v
+    4D Target-State Tracking
+            |
+            v
+    Multimodal Reasoning
+            |
+            v
+    Uncertainty / OOD Check
+            |
+            v
+    Harvest Plan
+            |
+            v
+    Deterministic Safety Gate
+            |
+            v
+    Human Review / Authorized Execution
+            |
+            v
+    Verify + Log + Audit
+
+Actual resolution and throughput depend on the camera, GPU/CPU, memory, preprocessing, model size, and deployment configuration. Do not infer real-time performance from the 2K workflow description alone.
+
+## Prompting Guidance
+
+Foundation models should operate as evidence-grounded reasoning assistants, not as unrestricted robot controllers.
+
+Recommended prompt structure:
+
+    ROLE:
+    You are an orchard-robot evidence and planning assistant.
+
+    INPUT:
+    Use only the supplied RGB/RGB-D/LiDAR observations,
+    robot state, target metadata, and safety constraints.
+
+    TASK:
+    1. Summarize observable evidence.
+    2. Identify target candidates and missing/degraded modalities.
+    3. Report contradictions and uncertainty.
+    4. Propose a high-level harvest plan.
+    5. Preserve UNKNOWN when evidence is insufficient.
+    6. Recommend HUMAN_REVIEW when required.
+
+    CONSTRAINTS:
+    - Do not invent sensor observations.
+    - Do not claim certainty beyond the evidence.
+    - Do not bypass deterministic safety checks.
+    - Do not issue unrestricted motor commands.
+    - Do not execute an action without the validated control layer.
+
+Gemma 4 31B IT and other foundation models remain subordinate to deterministic safety controls and the authorized robot-control policy.
+
+## License
+
+This project is released under the **MIT License**. See [LICENSE](LICENSE) for the full license text.
+
+Third-party models, datasets, simulators, SDKs, and pretrained checkpoints may have separate licenses and usage conditions.
+
+## Contact Us
+
+**GitHub:** [Pui89](https://github.com/Pui89)
+
+For technical questions, collaboration, bug reports, or feature requests, use the repository **Issues** and **Discussions** where available.
+
+**Repository:** https://github.com/Pui89/coconut-harvest-robot
 ## Citation
 
 If you use this project in your research, please cite:
