@@ -28,6 +28,28 @@ generative_simulation:
     runtime_robot_control: false
     production_safety_review_required: true
 
+vision_language_reasoning:
+  - name: Gemma-4-31B-it
+    source: google/gemma-4-31B-it
+    source_url: https://huggingface.co/google/gemma-4-31B-it
+    role: multimodal_scene_reasoning_and_task_interpretation
+    runtime: transformers_or_vllm
+    uses:
+      - orchard_image_reasoning
+      - target_verification
+      - ripeness_and_quality_reasoning
+      - occlusion_analysis
+      - branch_and_workspace_risk_reasoning
+      - active_perception
+      - structured_harvest_planning
+    input_modalities:
+      - text
+      - image
+    output: structured_decision
+    direct_motor_control: false
+    safety_gate_required: true
+    model_weights_bundled: false
+
 action_models:
   - name: NVIDIA-GR00T-N1.7-3B
     source: nvidia/GR00T-N1.7-3B
@@ -57,7 +79,7 @@ action_models:
 integration:
   architecture: >
     RGB/RGB-D/LiDAR/IMU -> YOLO + SAM3 + tracking -> 3D tree/branch/fruit world model
-    -> Qwen3-VL reasoning -> active perception + future prediction
+    -> Gemma-4-31B-it / Qwen3-VL reasoning -> active perception + future prediction
     -> GR00T N1.7 / FLUX 3 Action candidate actions -> deterministic safety gate
     -> ROS2/Nav2 + MoveIt2/RRT* -> arm/tool controller -> verify harvest -> memory update
 
