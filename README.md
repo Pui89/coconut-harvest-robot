@@ -931,3 +931,33 @@ print(decision)
 ```
 
 The Gemma model is advisory only. It does not directly control motors, cutters, or the arm. All proposed decisions remain subject to target verification, collision/workspace checks, joint and force limits, human-exclusion checks, and the emergency-stop path. Gemma 4 31B IT is a large model; its Hugging Face repository is about 62.6 GB, so model weights are intentionally not stored in this Git repository.
+
+
+## Professional Autonomous Robotics Upgrade
+
+The platform now includes a deterministic engineering layer around the existing YOLO26 and Gemma 4 31B IT components:
+
+- sensor-health and timestamp-synchronization assessment
+- conservative harvestability scoring with explicit abstention states
+- deterministic safety-gate API for candidate actions
+- 3D/4D target-state primitives
+- machine-readable harvest-target and safety-action schemas
+- evaluation benchmark and digital-twin guidance
+- operator oversight requirements
+- Dependabot, CODEOWNERS, CI testing and CodeQL security workflow
+- clearer separation between AI proposal, deterministic validation and actuator control
+
+### Production architecture
+
+Sensors → Sensor Health → YOLO26/Segmentation/Tracking → 3D/4D World Model → Harvestability → Gemma Reasoning → Planning → Human/Policy Review → Deterministic Safety Gate → ROS 2/MoveIt 2 → Validated Controller → Harvest Verification → Audit
+
+The repository deliberately does not claim certified autonomous physical harvesting, field-success rates, or real-time performance without representative hardware and dataset measurements.
+
+See:
+- docs/PROFESSIONAL_ROBOT_ARCHITECTURE.md
+- docs/HARVESTABILITY.md
+- docs/SAFETY_CONTROL_BOUNDARY.md
+- docs/EVALUATION_BENCHMARK.md
+- docs/DIGITAL_TWIN.md
+- docs/OPERATOR_CONSOLE.md
+- docs/RELEASE_SECURITY.md
