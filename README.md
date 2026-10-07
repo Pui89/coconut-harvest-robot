@@ -4,6 +4,17 @@ A PyTorch-based robotic agriculture system for autonomous coconut harvesting in 
 
 ![Coconut harvest robot concept](docs/images/coconut_harvest_robot_photo.svg)
 
+## 3D / 4D Realistic Robot Concept
+
+![Realistic 3D/4D coconut harvest robot](docs/coconut_harvest_robot_3d_4d_concept.svg)
+
+A new concept render presents the autonomous orchard platform with RGB-D/LiDAR sensing, sensor mast, mobile chassis, articulated harvesting arm, coconut target tracking, and a time-aware 4D trajectory visualization.
+
+- **3D/4D concept:** `docs/coconut_harvest_robot_3d_4d_concept.svg`
+- **4D demo video:** `docs/coconut_harvest_robot_4d_demo.mp4`
+
+The SVG contains an animated target trajectory to visualize the fourth dimension (time). The MP4 is a lightweight preview of the robot's arm tracking motion.
+
 ## Overview
 
 This project implements a complete autonomous harvesting pipeline:
