@@ -8,6 +8,9 @@ from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional
 
 
+DEFAULT_REASONING_MODEL = "google/gemma-4-31B-it"
+
+
 @dataclass
 class ReasoningDecision:
     goal: str
@@ -19,9 +22,13 @@ class ReasoningDecision:
 
 
 class CoconutReasoner:
-    """Adapter boundary for Qwen3-VL or another VLM/reasoning model."""
+    """Adapter boundary for Gemma 4 31B IT, Qwen3-VL, or another VLM/reasoning model."""
 
-    def __init__(self, model: str = "Qwen3-VL", infer: Optional[Callable[[Dict[str, Any]], Dict[str, Any]]] = None):
+    def __init__(
+        self,
+        model: str = DEFAULT_REASONING_MODEL,
+        infer: Optional[Callable[[Dict[str, Any]], Dict[str, Any]]] = None,
+    ):
         self.model = model
         self.infer = infer
 
