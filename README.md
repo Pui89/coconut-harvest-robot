@@ -436,6 +436,130 @@ Authorized Robot Control
 
 YOLO26 is therefore integrated as **perception evidence**, not as an autonomous harvesting authority. Its pretrained COCO checkpoints are not claimed to be coconut-specific; orchard performance requires validation and, where appropriate, fine-tuning on representative coconut/orchard data. citeturn0search1
 
+## YOLO26 Models & Training
+
+The repository uses **Ultralytics YOLO26** as the fast RGB perception family. The official YOLO26 release supports detection, instance segmentation, semantic segmentation, monocular depth, classification, pose estimation, and oriented bounding boxes, with training, validation, inference, and export workflows. citeturn0search0turn0search1
+
+| Model | Filenames | Task | Training | Validation | Inference | Export |
+|---|---|---|---|---|---|---|
+| YOLO26 | `yolo26n.pt` · `yolo26s.pt` · `yolo26m.pt` · `yolo26l.pt` · `yolo26x.pt` | Detection | ✅ | ✅ | ✅ | ✅ |
+| YOLO26-seg | `yolo26n-seg.pt` … `yolo26x-seg.pt` | Instance Segmentation | ✅ | ✅ | ✅ | ✅ |
+| YOLO26-sem | `yolo26n-sem.pt` … `yolo26x-sem.pt` | Semantic Segmentation | ✅ | ✅ | ✅ | ✅ |
+| YOLO26-depth | `yolo26n-depth.pt` … `yolo26x-depth.pt` | Depth Estimation | ✅ | ✅ | ✅ | ✅ |
+| YOLO26-cls | `yolo26n-cls.pt` … `yolo26x-cls.pt` | Classification | ✅ | ✅ | ✅ | ✅ |
+| YOLO26-pose | `yolo26n-pose.pt` … `yolo26x-pose.pt` | Pose / Keypoints | ✅ | ✅ | ✅ | ✅ |
+| YOLO26-obb | `yolo26n-obb.pt` … `yolo26x-obb.pt` | Oriented Detection | ✅ | ✅ | ✅ | ✅ |
+
+The `n/s/m/l/x` variants provide a compute/accuracy trade-off. For this robot, **YOLO26n or YOLO26s** is a practical starting point for edge inference; larger variants should be selected only after measuring orchard latency and accuracy on target hardware. citeturn0search0
+
+### Coconut Detection Training
+
+The pretrained checkpoints are general-purpose starting points and should not be presented as coconut-specific performance. Fine-tune on representative orchard data.
+
+```yaml
+path: data/coconut_yolo26
+train: images/train
+val: images/val
+
+names:
+  0: coconut
+  1: coconut_tree
+  2: ripe_coconut
+  3: unripe_coconut
+```
+
+Train YOLO26n:
+
+```bash
+yolo detect train model=yolo26n.pt data=data/coconut_yolo26.yaml epochs=100 imgsz=640 batch=16
+```
+
+Or from Python:
+
+```python
+from ultralytics import YOLO
+
+model = YOLO("yolo26n.pt")
+results = model.train(
+    data="data/coconut_yolo26.yaml",
+    epochs=100,
+    imgsz=640,
+    batch=16,
+)
+```
+
+Ultralytics supports loading pretrained YOLO26 checkpoints and fine-tuning them with a custom dataset. citeturn0search1
+
+### Validation
+
+```bash
+yolo detect val model=runs/detect/train/weights/best.pt data=data/coconut_yolo26.yaml imgsz=640
+```
+
+Record mAP50, mAP50-95, precision, recall, per-class metrics, false positives/negatives, inference latency, and compute/memory configuration. Evaluate daylight, shade, occlusion, distance, small/partially visible coconuts, and difficult canopy scenes separately.
+
+### Inference
+
+```bash
+yolo detect predict model=runs/detect/train/weights/best.pt source=data/sample_orchard_scenes imgsz=640
+```
+
+For the YOLO26 end-to-end one-to-one inference head:
+
+```bash
+yolo detect predict model=runs/detect/train/weights/best.pt source=data/sample_orchard_scenes nms=False
+```
+
+The default one-to-many head is generally used for accuracy-oriented prediction/validation; `nms=False` selects the NMS-free one-to-one head. citeturn0search0
+
+### Export
+
+ONNX:
+```bash
+yolo export model=runs/detect/train/weights/best.pt format=onnx
+```
+
+TensorRT:
+```bash
+yolo export model=runs/detect/train/weights/best.pt format=engine
+```
+
+Other official export targets include TorchScript, OpenVINO, NCNN, CoreML and additional edge/accelerator formats. citeturn0search2turn0search4
+
+### Coconut-Robot Integration
+
+```text
+RGB Camera
+    |
+    v
+YOLO26 Detection
+    |
+    +--> coconut / tree candidates
+    |
+    v
+Depth + LiDAR Association
+    |
+    v
+3D Localization
+    |
+    v
+Tracking + Ripeness Evidence
+    |
+    v
+Harvest Plan Proposal
+    |
+    v
+Reachability + Collision Checks
+    |
+    v
+Deterministic Safety Gate
+    |
+    v
+Authorized ROS 2 / MoveIt 2 Control
+```
+
+YOLO26 remains a **perception component**. Detection confidence must not be interpreted as harvest authorization, and the model must never directly command motors, cutters, or the harvesting arm.
+
 ## Model Architecture
 
 The model stack is organized into six layers:
