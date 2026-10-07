@@ -315,4 +315,27 @@ The repository now includes a reproducible 3D demonstration pipeline for the con
 - GitHub Actions workflow Build 3D Coconut Robot Demo renders the GLB and MP4 as downloadable workflow artifacts.
 
 The animation demonstrates **drive → scan → approach → cut → verify → retract** in a 3D orchard scene. For physics-backed movement, the same robot is represented by robots/coconut_harvester.urdf for Isaac Sim/Gazebo/ROS 2 integration.
-\n\n## Gemma 4 31B IT Multimodal Reasoning\n\nThe project supports **Google Gemma 4 31B IT** (`google/gemma-4-31B-it`) as the default high-level multimodal reasoning model. The model accepts image + text inputs and can be run with Hugging Face Transformers or a vLLM OpenAI-compatible server.\n\n- Model: https://huggingface.co/google/gemma-4-31B-it\n- Runtime adapter: `src/coconut_harvest_robot/gemma4.py`\n- Configuration: `config/ai_stack.yaml`, `config/reasoning.yaml`\n- Advanced model registry: `config/advanced_models.yaml`\n\nExample local usage:\n\n```python\nfrom coconut_harvest_robot.gemma4 import Gemma4Reasoner\n\nreasoner = Gemma4Reasoner()\ndecision = reasoner.structured_decision(\n    {"targets": [{"id": "coconut-01", "ripeness": "candidate"}]}\n)\nprint(decision)\n```\n\nThe Gemma model is advisory only. It does not directly control motors, cutters, or the arm. All proposed decisions remain subject to target verification, collision/workspace checks, joint and force limits, human-exclusion checks, and the emergency-stop path. Gemma 4 31B IT is a large model; its Hugging Face repository is about 62.6 GB, so model weights are intentionally not stored in this Git repository.\n
+
+
+## Gemma 4 31B IT Multimodal Reasoning
+
+The project supports **Google Gemma 4 31B IT** (`google/gemma-4-31B-it`) as the default high-level multimodal reasoning model. The model accepts image + text inputs and can be run with Hugging Face Transformers or a vLLM OpenAI-compatible server.
+
+- Model: https://huggingface.co/google/gemma-4-31B-it
+- Runtime adapter: `src/coconut_harvest_robot/gemma4.py`
+- Configuration: `config/ai_stack.yaml`, `config/reasoning.yaml`
+- Advanced model registry: `config/advanced_models.yaml`
+
+Example local usage:
+
+```python
+from coconut_harvest_robot.gemma4 import Gemma4Reasoner
+
+reasoner = Gemma4Reasoner()
+decision = reasoner.structured_decision(
+    {"targets": [{"id": "coconut-01", "ripeness": "candidate"}]}
+)
+print(decision)
+```
+
+The Gemma model is advisory only. It does not directly control motors, cutters, or the arm. All proposed decisions remain subject to target verification, collision/workspace checks, joint and force limits, human-exclusion checks, and the emergency-stop path. Gemma 4 31B IT is a large model; its Hugging Face repository is about 62.6 GB, so model weights are intentionally not stored in this Git repository.
