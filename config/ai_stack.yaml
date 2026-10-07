@@ -13,9 +13,14 @@ perception:
     enabled: true
 
 vision_language:
-  model_family: qwen3-vl
+  model_family: gemma-4-31B-it
+  model_id: google/gemma-4-31B-it
+  alternatives:
+    - qwen3-vl
   enabled: true
-  role: scene_reasoning_and_task_interpretation
+  role: multimodal_scene_reasoning_and_task_interpretation
+  runtime: transformers
+  image_text_to_text: true
 
 world_model:
   rgbd: true
@@ -51,8 +56,10 @@ simulation:
   domain_randomization: true
   sim_to_real: true
 
-
 advanced_models:
+  vision_language_reasoning:
+    - google/gemma-4-31B-it
+    - qwen3-vl
   generative_simulation:
     - LTX-2.5-Diffusers
     - MiniMax-H3-Turbo-LoRA
