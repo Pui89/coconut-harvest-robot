@@ -365,6 +365,77 @@ The architecture separates perception and multimodal reasoning from deterministi
 
 Actual camera resolution, depth range, LiDAR density, field of view, frame rate, calibration, synchronization, and preprocessing depend on deployed hardware. Configuration and sensor provenance should be recorded with every evaluation.
 
+## YOLO26 Perception Integration
+
+The coconut-harvest perception stack now includes **Ultralytics YOLO26** as an optional fast visual proposal layer. The official Hugging Face model repository provides YOLO26 checkpoints such as `yolo26n.pt`; YOLO26 supports detection and related vision tasks through the Ultralytics runtime. citeturn0search0turn0search2
+
+**Integration role**
+
+- Detect candidate coconuts and relevant orchard objects from RGB imagery.
+- Provide bounding boxes and confidence scores to the downstream 3D/spatial pipeline.
+- Combine RGB detections with depth/LiDAR for 3D localization.
+- Feed candidate evidence to segmentation, tracking, ripeness screening, and multimodal reasoning.
+- Preserve uncertainty when detections are weak, contradictory, or outside the trained domain.
+- YOLO26 does **not** directly control the arm, cutter, gripper, mobile base, or other actuators.
+
+**Runtime**
+
+```bash
+python -m pip install ultralytics huggingface-hub
+```
+
+Example:
+
+```python
+from coconut_harvest_robot.yolo26 import YOLO26Detector
+
+detector = YOLO26Detector(
+    weights="yolo26n.pt",
+    confidence=0.35,
+    imgsz=640,
+)
+
+detections = detector.predict(rgb_image)
+
+for item in detections:
+    print(item.class_name, item.confidence, item.xyxy)
+```
+
+The adapter downloads the selected checkpoint from the official `Ultralytics/YOLO26` Hugging Face repository and keeps model weights out of this Git repository. The default `yolo26n.pt` checkpoint is intended as a lightweight starting point; model size should be selected according to the edge/robot compute budget. citeturn0view0
+
+**Important licensing note:** the YOLO26 Hugging Face model card currently lists an **AGPL-3.0** license. Review Ultralytics licensing requirements before redistributing or deploying this integration in a proprietary/commercial system; an appropriate commercial license may be required. citeturn0view0
+
+**Perception flow**
+
+```text
+RGB Camera
+    |
+    v
+YOLO26 Detection
+    |
+    +----> Candidate Coconut / Orchard Objects
+    |
+    v
+Depth + LiDAR Association
+    |
+    v
+3D Localization + Tracking
+    |
+    v
+Segmentation / Ripeness / Multimodal Reasoning
+    |
+    v
+Reachability + Collision Validation
+    |
+    v
+Deterministic Safety Gate
+    |
+    v
+Authorized Robot Control
+```
+
+YOLO26 is therefore integrated as **perception evidence**, not as an autonomous harvesting authority. Its pretrained COCO checkpoints are not claimed to be coconut-specific; orchard performance requires validation and, where appropriate, fine-tuning on representative coconut/orchard data. citeturn0search1
+
 ## Model Architecture
 
 The model stack is organized into six layers:
