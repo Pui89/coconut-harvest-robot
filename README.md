@@ -255,6 +255,60 @@ See `docs/ORCHARD_DATA.md` for data format specification.
 - Reinforcement learning for adaptive strategies
 - Integration with ROS for industrial robot control
 
+## Cybersecurity & Secure Robotics
+
+Security is a first-class part of the robot architecture. The platform follows a **defense-in-depth** approach across the robot, AI stack, network, cloud/fleet layer, software supply chain, and OTA update lifecycle.
+
+### Security architecture
+
+```
+Cloud / Fleet
+   |  mTLS + RBAC + audit + signed OTA
+   v
+Robot Management
+   | authenticated allowlisted services
+   v
+AI / Perception / World Model
+   | proposals only
+   v
+Mission Planner
+   | policy + deterministic validation
+   v
+Safety Supervisor
+   | E-stop + limits + watchdog + authorization
+   v
+Real-time Controller
+   | CAN / EtherCAT
+   v
+Actuators
+```
+
+### Core controls
+
+- **Unique robot identity** and certificate-based authentication for production devices.
+- **Mutual TLS** for authenticated robot/cloud and robot/management communications.
+- **RBAC + MFA** for operator, maintainer, ML, fleet-admin, and security-admin workflows.
+- **Network segmentation** between safety/control, AI/perception, management, and cloud services.
+- **Signed firmware, applications, configuration, and AI models** with SHA-256 integrity verification.
+- **Anti-rollback** protection for firmware and model deployments.
+- **Secure OTA** using staged deployment, canary validation, health checks, and rollback.
+- **No direct AI-to-actuator path**: foundation models and VLMs can propose plans but cannot bypass deterministic safety validation.
+- **Audit logging** for authentication, authorization, configuration changes, model versions, OTA events, safety overrides, and remote-control actions.
+- **Supply-chain security** with dependency auditing, CodeQL, SBOM/provenance requirements, and model/dataset license tracking.
+- **Secret protection** with CI checks for private keys and common credential patterns; production secrets must remain outside Git.
+- **Incident response** supporting safe stop, credential/certificate revocation, containment, patching, validation, and controlled fleet recovery.
+
+### Security documents
+
+- `SECURITY.md` — vulnerability policy and security principles
+- `docs/CYBERSECURITY_ARCHITECTURE.md` — robot security zones, trust boundaries, identity, network, OTA, AI/model security, logging, and incident response
+- `config/security.yaml` — development/production security baseline
+- `docs/RELEASE_SECURITY.md` — release and deployment security checklist
+
+The security baseline is informed by **NIST Cybersecurity Framework 2.0** and **NIST Secure Software Development Framework (SSDF)** practices. These provide useful cybersecurity and software-supply-chain foundations; they do not by themselves certify the physical robot. citeturn0search2turn0search3turn0search8
+
+For physical deployment, cybersecurity must be combined with hardware safety engineering, functional safety validation, penetration testing, secure manufacturing, and applicable agricultural machinery requirements.
+
 ## News
 
 Project updates, architecture changes, new model integrations, simulation assets, evaluation milestones, and safety-related changes are recorded in Git history and repository documentation. New capabilities are labeled according to implementation status rather than presented as validated results.
