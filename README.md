@@ -403,25 +403,131 @@ No foundation model is trusted as the final authority for physical actuation.
 
 ## Local Deployment
 
+**Status: Local development / prototype deployment.** Physical harvesting must remain behind deterministic safety controls and an authorized robot-control interface.
+
 ### Requirements
 
 - Python 3.x
+- Git
 - PyTorch and project dependencies
-- ROS 2 / MoveIt 2 for robot integration
-- Compatible RGB/RGB-D/LiDAR hardware for physical deployment
-- Optional GPU for accelerated inference
-- Isaac Sim/Gazebo for simulation workflows
+- ROS 2 / MoveIt 2 for physical robot integration
+- Compatible RGB/RGB-D/LiDAR and optional multispectral hardware
+- Optional NVIDIA GPU for accelerated inference
+- Optional Isaac Sim, Isaac Lab, or Gazebo for simulation
 
-### Install
+### Clone and Install
 
-    git clone https://github.com/Pui89/coconut-harvest-robot.git
-    cd coconut-harvest-robot
-    python -m venv .venv
-    source .venv/bin/activate
-    pip install -r requirements.txt
-    python demo.py
+```bash
+git clone https://github.com/Pui89/coconut-harvest-robot.git
+cd coconut-harvest-robot
 
-For Windows, activate the virtual environment with the platform-appropriate command. Start with simulation or recorded data before connecting physical actuators. Validate all safety gates before real-world execution.
+python -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell:
+# .venv\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+For editable development when supported by the repository packaging:
+
+```bash
+python -m pip install -e .
+```
+
+### Validate the Environment
+
+```bash
+python --version
+python -m pip check
+pytest -q
+```
+
+Run the local demonstration:
+
+```bash
+python demo.py
+```
+
+Start with recorded orchard data or simulation before connecting physical actuators.
+
+### Recommended Deployment Sequence
+
+```text
+Recorded / Simulated Orchard Data
+        |
+Environment + Dependency Validation
+        |
+Sensor Calibration + Time Synchronization
+        |
+Perception + Coconut Tracking
+        |
+3D Spatial World Model
+        |
+4D Target-State Tracking
+        |
+Multimodal Evidence + Reasoning
+        |
+Harvest Plan Proposal
+        |
+Uncertainty / Reachability / Collision Checks
+        |
+Human Review / Mission Policy
+        |
+Deterministic Safety Gate
+        |
+ROS 2 / MoveIt 2
+        |
+Authorized Robot Interface
+        |
+Harvest Action + Outcome Verification
+        |
+Provenance / Telemetry / Audit Log
+```
+
+### Sensor Deployment Checklist
+
+Record, at minimum:
+
+- sensor model and configuration
+- RGB/depth/multispectral resolution and frame rate
+- LiDAR range/density/FOV where applicable
+- intrinsic and extrinsic calibration
+- timestamp synchronization method
+- preprocessing and model versions
+- sensor-health and missing-modality state
+- robot pose/configuration and workspace limits
+- target/evidence provenance
+- reviewer decision and execution outcome
+
+If a sensor is degraded, missing, or contradictory, preserve uncertainty and avoid forcing a harvest decision.
+
+### ROS 2 / Robotics Integration Boundary
+
+```text
+Sensors -> Perception -> 3D/4D World Model -> Reasoning
+                                                   |
+                                                   v
+                                             Human Review
+                                                   |
+Depth + LiDAR + IMU -> SLAM -> Planner -> Safety Gate -> ROS 2
+```
+
+Foundation, generative, and action models must not directly command motors, cutters, manipulators, or other actuators. Deterministic collision/workspace checks, joint limits, force/torque limits, human-exclusion zones, velocity constraints, and emergency-stop behavior remain authoritative.
+
+### Troubleshooting
+
+- **Install failure:** verify Python version, `requirements.txt`, and optional package/driver compatibility.
+- **Tests fail:** fix the local software environment before physical deployment.
+- **Camera/depth issues:** verify device permissions, drivers, calibration, and timestamp synchronization.
+- **LiDAR issues:** verify point-cloud frame, extrinsics, range configuration, and sensor health.
+- **ROS 2 unavailable:** use recorded data or simulation until the robotics stack is validated.
+- **Low confidence or modality disagreement:** retain uncertainty and require review rather than forcing execution.
+
+### Development Principle
+
+Validate **simulation/recorded data → perception → spatial reasoning → uncertainty → planning → safety** before connecting hardware incrementally. No foundation-model output may bypass the deterministic safety layer or directly actuate the harvesting robot.
 
 ## Full 2K-Workflow
 
