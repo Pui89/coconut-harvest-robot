@@ -1072,3 +1072,8 @@ See:
 - docs/DIGITAL_TWIN.md
 - docs/OPERATOR_CONSOLE.md
 - docs/RELEASE_SECURITY.md
+
+
+## Free tools, funding and hardware support
+
+See [Free and Open-Source Resources, Funding, Compute and Hardware Support](docs/OPEN_SOURCE_FREE_RESOURCES_AND_SUPPORT.md) for open-source tools, eligible grant and cloud-credit routes, potential hardware-loan contacts, project-specific priorities, and 2026–2028 planning. Support is competitive and subject to each program's current eligibility and terms; no funding or hardware is guaranteed.
