@@ -75,6 +75,20 @@ These repository graphics are concept visualizations, not evidence of a complete
 - [Simulation demos](sim/)
 - [Evaluation benchmark](docs/EVALUATION_BENCHMARK.md)
 
+### End-to-end simulation demo
+
+Run the safety-gated software pipeline with synthetic orchard inputs:
+
+~~~bash
+python -m pip install -e ".[dev]"
+python demo_end_to_end.py
+python -m pytest
+~~~
+
+- [End-to-end workflow, tests, safety gates and limitations](docs/END_TO_END_SIMULATION.md)
+- The demo emits a JSON proposal/report only. It never sends actuator commands and blocks any path without independent collision validation.
+- Synthetic inputs and hand-supplied evidence are test fixtures, not measured detection or harvesting results.
+
 ### First engineering priority
 
 1. Audit the current URDF, demo scripts, dependencies and tests.
@@ -85,15 +99,15 @@ These repository graphics are concept visualizations, not evidence of a complete
 
 **Evidence policy:** clearly distinguish design targets, simulation measurements and physical measurements. Do not claim autonomous harvesting, field readiness, or safety validation without reproducible evidence.
 
-## Overview
+## Prototype pipeline overview
 
-This project implements a complete autonomous harvesting pipeline:
+This repository sketches the intended harvesting pipeline. The current implementation is a research prototype and does not provide validated autonomous harvesting or safe physical control. The end-to-end demo produces a report only; it is not evidence of real-world performance.
 
-- **Vision system**: coconut and tree detection from RGB/depth imagery
-- **Spatial reasoning**: 3D localization and canopy geometry analysis
-- **Motion planning**: collision-free trajectory generation for robot arm
-- **Action execution**: gripper control and cutting mechanisms
-- **Real orchard support**: handles real farm imagery and LiDAR data
+- **Vision prototype**: neural feature extraction from RGB/depth tensors; coconut-specific detection needs dataset validation
+- **Spatial prototype**: feature fusion intended to support future 3D localization
+- **Planning prototype**: candidate waypoint generation; collision-free motion is not verified
+- **Action boundary**: no physical gripper, cutter, or motor command is issued
+- **Real orchard validation**: RGB-D/LiDAR calibration and held-out farm-data evaluation remain future work
 
 ## Pipeline overview
 
@@ -1087,6 +1101,3 @@ See:
 - docs/RELEASE_SECURITY.md
 
 
-## Free tools, funding and hardware support
-
-See [Free and Open-Source Resources, Funding, Compute and Hardware Support](docs/OPEN_SOURCE_FREE_RESOURCES_AND_SUPPORT.md) for open-source tools, eligible grant and cloud-credit routes, potential hardware-loan contacts, project-specific priorities, and 2026–2028 planning. Support is competitive and subject to each program's current eligibility and terms; no funding or hardware is guaranteed.
