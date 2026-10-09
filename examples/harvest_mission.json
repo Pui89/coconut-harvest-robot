@@ -1,0 +1,13 @@
+{
+  "mission_id": "synthetic-orchard-demo-001",
+  "sensor_health": {"rgb": true, "depth": true, "joint_state": true, "force_torque": true},
+  "emergency_stop": false,
+  "workspace": {"max_reach_m": 3.0},
+  "minimum_ripeness_score": 0.7,
+  "obstacle_clearance_m": 0.25,
+  "obstacle_points_m": [[2.5, 2.5, 2.5]],
+  "candidates": [
+    {"target_id": "synthetic-coconut-01", "position_m": [1.2, 0.4, 1.8], "ripeness_score": 0.91},
+    {"target_id": "synthetic-coconut-02", "position_m": [2.8, 0.0, 0.0], "ripeness_score": 0.6}
+  ]
+}
