@@ -179,3 +179,46 @@ Start with a camera/depth sensor, a small compute device and safe bench-scale ac
 
 ### Suggested measurable evidence
 Fruit detection precision/recall, 3D localization error, target reachability, grasp/manipulation success rate, cycle time, damage rate, dropped-object rate and emergency-stop tests. Report simulated and physical results separately. Real work at height requires a separate hazard analysis and qualified field validation.
+
+
+## Official program application checklist (2026)
+
+Use these official pages to check current calls and eligibility. Listing a program does not mean the call is open or that support has been awarded.
+
+### Thailand funding
+- NIA financial support: https://www.nia.or.th/service/financial-support
+- depa startup information: https://www.depa.or.th/th/startup
+- depa funding programs: https://depa.or.th/th/funds
+- NRCT: https://www.nrct.go.th/
+
+Ask each agency which call is open now, whether an individual can apply or a Thai-registered company/university partner is required, which prototype costs are eligible, and what deadlines, matching funds, reporting and IP rules apply. Prepare a short proposal covering the problem, beneficiaries, measurable milestones, budget, ownership, commercialization/research plan, risks and requested support. Never invent company status, partners, results or awards.
+
+### Compute and startup support
+- NVIDIA Inception: https://www.nvidia.com/en-us/startups/
+- AWS Startups / Activate: https://aws.amazon.com/startups/
+- Google for Startups Cloud Program: https://cloud.google.com/startup/
+- Hugging Face GPU/community grant information: https://github.com/huggingface/skills/blob/main/skills/huggingface-spaces/references/grants.md
+- Hugging Face Hub and Spaces: https://huggingface.co/
+
+Benefits and credits depend on current terms and eligibility; they do not guarantee cash or physical hardware. Verify credit amount, expiry, region, billing/payment requirements and eligible services. Set budget alerts and check model/dataset licenses.
+
+### Hardware and research-support leads
+- AMD University Program: https://www.amd.com/en/corporate/university-program.html
+- Seeed Studio Academic Support: https://academic.seeed.cc/
+- Stereolabs: https://www.stereolabs.com/
+- Qualcomm AI Program for Innovators (APAC): https://www.qualcomm.com/ai-program-for-innovators/apac
+- Open Robotics / ROS community contact: https://www.openrobotics.org/contact
+
+These are leads, not confirmed donations. Ask about evaluation kits, loans, discounts or research collaboration. Specify the experiment, requested specs and quantity, timeline, shipping country (Thailand), whether a loan is acceptable, result-sharing plan and return plan.
+
+### Contact and safety checklist
+Possible addresses previously identified—`aup@amd.com`, `bp@seeed.cc`, `seeed_apac@seeed.cc`, `support@stereolabs.com`, `cloudstartupsupport@google.com`—are not verified here. Confirm each on the official site before emailing; otherwise use the official contact/application form. Use official pages for NIA, depa, Qualcomm, NVIDIA, AWS and Hugging Face. Never send passwords, API keys, bank credentials or unnecessary identity documents, and do not pay an unverified grant intermediary. Record contact date, request, eligibility, status, restrictions and follow-up date.
+
+### Simulation-first evidence and 2026–2028 plan
+1. Record OS, computer hardware, tool versions and setup steps; simulate with Gazebo or Webots before buying hardware.
+2. Add automated tests and record commands, seeds, configurations, dependency versions, raw results, failures and limitations.
+3. Label every result as simulation, lab or real-world; simulation is not field validation.
+4. Keep a support ledger and license records; review safety, privacy, legal and operational risks before deployment.
+5. **2026:** simulation prototype and reproducible baseline benchmarks. **2027:** seek research partners and controlled lab validation. **2028:** consider commercialization only after evidence and safety/legal review.
+
+**Coconut Harvest Robot focus:** orchard perception in simulation, fruit localization, manipulator planning and safe bench-scale validation. Measure detection precision/recall, 3D localization error, grasp success, cycle time and damage rate. Use non-sharp mock fruit; do not claim real harvest performance before testing.
