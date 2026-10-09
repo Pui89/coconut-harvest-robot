@@ -36,7 +36,10 @@ class HarvestPipeline:
         self.vision_encoder = TreeVisionEncoder(out_dim=16)
         self.spatial_extractor = SpatialFeatureExtractor(in_channels=4, out_dim=16)
         self.action_model = AdvancedActionModel(in_dim=32, action_dim=self.config.action_dim)
-        self.trajectory_planner = TrajectoryPlanner(rrt_iterations=self.config.rrt_iterations)
+        self.trajectory_planner = TrajectoryPlanner(
+            max_iterations=self.config.rrt_iterations,
+            planning_timeout_s=self.config.planning_timeout_s,
+        )
         self.kinematics_solver = KinematicSolver(dof=self.config.arm_dof)
 
     def tokenize_instruction(self, instruction: str) -> torch.Tensor:
