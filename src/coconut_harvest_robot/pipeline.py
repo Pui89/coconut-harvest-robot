@@ -56,7 +56,7 @@ class HarvestPipeline:
         scene_repr = self.vision_encoder(rgb)
         spatial_features = self.spatial_extractor(rgb, depth)
 
-        fused = scene_repr + spatial_features
+        fused = torch.cat((scene_repr, spatial_features), dim=1)
         action_logits = self.action_model(fused)
 
         action_plan = {
