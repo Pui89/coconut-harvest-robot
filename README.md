@@ -77,7 +77,7 @@ These repository graphics are concept visualizations, not evidence of a complete
 
 ### End-to-end simulation demo
 
-Run the safety-gated software pipeline with synthetic orchard inputs:
+Run the safety-gated software workflow with synthetic orchard inputs:
 
 ~~~bash
 python -m pip install -e ".[dev]"
@@ -85,9 +85,22 @@ python demo_end_to_end.py
 python -m pytest
 ~~~
 
+**Workflow stages**
+1. **Sensor health:** evaluate sensor quality and timestamp alignment; unhealthy or unsynchronized inputs trigger a safe hold.
+2. **Perception proposal:** process RGB and depth tensors through the current prototype pipeline.
+3. **Harvestability review:** score explicitly supplied evidence for perception/localization confidence, ripeness, reachability, clearance, occlusion, and tracking stability.
+4. **Safety gate:** reject proposals without independent collision validation or when other configured safety conditions fail.
+5. **Audit report:** emit a JSON report with status, decision reasons, prototype trajectory waypoint count, and the actuator-command invariant.
+
+**Possible report status:** `SAFE_HOLD`, `BLOCKED`, or `PROPOSAL_APPROVED_NOT_EXECUTED`. An approval status means only that a software proposal passed the configured checks; it is **not** permission to operate a physical robot.
+
 - [End-to-end workflow, tests, safety gates and limitations](docs/END_TO_END_SIMULATION.md)
-- The demo emits a JSON proposal/report only. It never sends actuator commands and blocks any path without independent collision validation.
-- Synthetic inputs and hand-supplied evidence are test fixtures, not measured detection or harvesting results.
+- [Pipeline implementation](src/coconut_harvest_robot/end_to_end.py)
+- [Synthetic demo](demo_end_to_end.py)
+- [End-to-end tests](tests/test_end_to_end.py)
+- [CI results](https://github.com/Pui89/coconut-harvest-robot/actions)
+
+**Evidence and safety limits:** The demo uses generated synthetic imagery and hand-supplied evidence; these are fixtures, not measured detection or harvesting results. The trajectory planner is not independently collision-validated, and the report never sends actuator commands. Do not use this prototype to control a physical robot. Gazebo Sim/Isaac Sim physics validation, calibrated sensor evaluation, independent collision checking, and a documented safety review remain future acceptance gates.
 
 ### First engineering priority
 
