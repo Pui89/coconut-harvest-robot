@@ -57,20 +57,33 @@ See:
 - [Research, Competition and Commercial Evidence](docs/PUI89_RESEARCH_COMPETITION_INVESTOR.md)
 - [12-Month Roadmap](docs/PUI89_12_MONTH_ROADMAP.md)
 
-A PyTorch-based robotic agriculture system for autonomous coconut harvesting in high trees. Combines vision-based fruit detection, 3D spatial reasoning, trajectory planning, and action execution in a production-ready framework.
+## Robot concept and development status
+
+PUI89 Coconut Harvest Robot is a **simulation-first research concept** for investigating safer coconut harvesting. The proposed architecture compares a trunk-climbing platform with alternatives such as a ground-based arm. The mechanical approach is not yet validated; physical climbing and cutting must not be assumed to work.
 
 ![Coconut harvest robot concept](docs/images/coconut_harvest_robot_photo.svg)
 
-## 3D / 4D Realistic Robot Concept
+### 3D / 4D concept visualization
 
-![Realistic 3D/4D coconut harvest robot](docs/coconut_harvest_robot_3d_4d_concept.svg)
+![3D/4D coconut harvest robot concept](docs/coconut_harvest_robot_3d_4d_concept.svg)
 
-A new concept render presents the autonomous orchard platform with RGB-D/LiDAR sensing, sensor mast, mobile chassis, articulated harvesting arm, coconut target tracking, and a time-aware 4D trajectory visualization.
+These repository graphics are concept visualizations, not evidence of a completed or field-tested robot. Any animation illustrates a proposed trajectory rather than measured robot performance.
 
-- **3D/4D concept:** `docs/coconut_harvest_robot_3d_4d_concept.svg`
-- **4D demo video:** `docs/coconut_harvest_robot_4d_demo.mp4`
+- [Concept design, subsystems, safety boundaries and acceptance criteria](docs/CONCEPT_DESIGN.md)
+- [Simulation-first development roadmap and release gates](docs/DEVELOPMENT_ROADMAP.md)
+- [Robot description (URDF)](robots/coconut_harvester.urdf)
+- [Simulation demos](sim/)
+- [Evaluation benchmark](docs/EVALUATION_BENCHMARK.md)
 
-The SVG contains an animated target trajectory to visualize the fourth dimension (time). The MP4 is a lightweight preview of the robot's arm tracking motion.
+### First engineering priority
+
+1. Audit the current URDF, demo scripts, dependencies and tests.
+2. Make a reproducible palm-trunk simulation with configurable dimensions and contact assumptions.
+3. Validate robot frames, joint limits, collision geometry and safety states.
+4. Establish a held-out vision dataset and publish raw benchmark logs before reporting metrics.
+5. Only after simulation and risk review, assess a low-height, tethered, non-cutting physical rig.
+
+**Evidence policy:** clearly distinguish design targets, simulation measurements and physical measurements. Do not claim autonomous harvesting, field readiness, or safety validation without reproducible evidence.
 
 ## Overview
 
