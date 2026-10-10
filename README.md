@@ -3,6 +3,12 @@
 
 ## AI Application Overview
 
+### Animated Concept Preview
+
+![Coconut Harvest AI animated concept demo](https://raw.githubusercontent.com/Pui89/Coconut-Harvest-AI/main/docs/images/coconut-harvest-ai-demo.svg)
+
+*Animated SVG concept preview. This illustrates a proposed workflow only; it is not a recorded 4D video, a live sensor feed, or evidence of validated real-world performance.*
+
 Simulation-first AI research application for orchard perception, coconut harvestability assessment, 3D/4D scene reasoning, and safety-gated harvest-plan proposals.
 
 ![3D/4D concept visualization](docs/images/coconut-harvest-ai-4d-concept.svg)
