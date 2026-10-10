@@ -1,4 +1,34 @@
-# Coconut Harvest Robot
+# Coconut Harvest AI Application
+
+
+## AI Application Overview
+
+Simulation-first AI research application for orchard perception, coconut harvestability assessment, 3D/4D scene reasoning, and safety-gated harvest-plan proposals.
+
+![3D/4D concept visualization](docs/images/coconut-harvest-ai-4d-concept.svg)
+
+> **Status and evidence:** This repository documents a research/prototype workflow. The illustration is concept artwork, not a live demonstration or proof of field performance. Reported capability and performance must be supported by reproducible tests and benchmark results.
+
+### Quick start
+
+Clone the renamed repository and install the project dependencies:
+
+```bash
+git clone https://github.com/Pui89/Coconut-Harvest-AI.git
+cd Coconut-Harvest-AI
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+python demo_end_to_end.py
+python -m pytest
+```
+
+The end-to-end demo and tests are intended for local development with the project's documented inputs. Start with synthetic or recorded data; do not connect the prototype directly to physical actuators or use it as the sole basis for consequential decisions.
+
+**Workflow:** sensor/data quality checks → perception and multimodal evidence → 3D/temporal scene representation → uncertainty and unknown-case handling → reviewable plan or screening proposal → audit record.
+
+**Documentation:** [End-to-end simulation guide](docs/END_TO_END_SIMULATION.md) · [Evaluation benchmark](docs/EVALUATION_BENCHMARK.md)
+
+**Animation status:** An animated GIF demo is not included in this README yet. Add one only after a reproducible simulation/demo recording has been generated and checked; concept artwork must not be presented as a working animation.
 
 
 ## PUI89 AI Robotics Platform
@@ -99,7 +129,7 @@ python -m pytest
 - [Pipeline implementation](src/coconut_harvest_robot/end_to_end.py)
 - [Synthetic demo](demo_end_to_end.py)
 - [End-to-end tests](tests/test_end_to_end.py)
-- [CI results](https://github.com/Pui89/coconut-harvest-robot/actions)
+- [CI results](https://github.com/Pui89/Coconut-Harvest-AI/actions)
 
 **Evidence and safety limits:** The demo uses generated synthetic imagery and hand-supplied evidence; these are fixtures, not measured detection or harvesting results. The trajectory planner is not independently collision-validated, and the report never sends actuator commands. Do not use this prototype to control a physical robot. Gazebo Sim/Isaac Sim physics validation, calibrated sensor evaluation, independent collision checking, and a documented safety review remain future acceptance gates.
 
@@ -256,8 +286,8 @@ Result Logging
 ## Installation
 
 ```bash
-git clone https://github.com/Pui89/coconut-harvest-robot.git
-cd coconut-harvest-robot
+git clone https://github.com/Pui89/Coconut-Harvest-AI.git
+cd Coconut-Harvest-AI
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -765,8 +795,8 @@ No foundation model is trusted as the final authority for physical actuation.
 ### Clone and Install
 
 ```bash
-git clone https://github.com/Pui89/coconut-harvest-robot.git
-cd coconut-harvest-robot
+git clone https://github.com/Pui89/Coconut-Harvest-AI.git
+cd Coconut-Harvest-AI
 
 python -m venv .venv
 source .venv/bin/activate
@@ -965,7 +995,7 @@ Third-party models, datasets, simulators, SDKs, and pretrained checkpoints may h
 
 For technical questions, collaboration, bug reports, or feature requests, use the repository **Issues** and **Discussions** where available.
 
-**Repository:** https://github.com/Pui89/coconut-harvest-robot
+**Repository:** https://github.com/Pui89/Coconut-Harvest-AI
 ## Citation
 
 If you use this project in your research, please cite:
@@ -975,7 +1005,7 @@ If you use this project in your research, please cite:
   title={Coconut Harvest Robot: Vision-Based Autonomous Agricultural Robotics},
   author={Your Name},
   year={2024},
-  url={https://github.com/Pui89/coconut-harvest-robot}
+  url={https://github.com/Pui89/Coconut-Harvest-AI}
 }
 ```
 
