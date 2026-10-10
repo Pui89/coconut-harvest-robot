@@ -1114,4 +1114,8 @@ See:
 - docs/OPERATOR_CONSOLE.md
 - docs/RELEASE_SECURITY.md
 
+## Coconut Harvest AI — 4D concept artwork
 
+![Coconut Harvest AI 4D AI concept](docs/images/coconut-harvest-ai-4d-concept.svg)
+
+*Concept artwork only. The visual describes a proposed spatio-temporal AI workflow; it is not evidence of a built robot, measured benchmark performance, or deployment readiness.*
